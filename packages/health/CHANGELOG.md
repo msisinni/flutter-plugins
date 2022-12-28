@@ -1,3 +1,13 @@
+## 4.4.0
+
+- Merged pull request #566, #578, #596, #623, #632
+- ECG added as part of #566
+- Small fixes
+
+## 4.3.0
+
+- upgrade to `device_info_plus: ^8.0.0`
+
 ## 4.2.0
 
 - upgrade to `device_info_plus: ^7.0.0`

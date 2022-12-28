@@ -95,6 +95,16 @@ class HealthFactory {
       throw ArgumentError('The length of [types] must be same as that of [permissions].');
     }
 
+    if (permissions != null) {
+      for (int i = 0; i < types.length; i++) {
+        final type = types[i];
+        final permission = permissions[i];
+        if (type == HealthDataType.ELECTROCARDIOGRAM && permission != HealthDataAccess.READ) {
+          throw ArgumentError('Requesting WRITE permission on ELECTROCARDIOGRAM is not allowed.');
+        }
+      }
+    }
+
     final mTypes = List<HealthDataType>.from(types, growable: true);
     final mPermissions = permissions == null
         ? List<int>.filled(types.length, HealthDataAccess.READ.index, growable: true)
@@ -199,11 +209,12 @@ class HealthFactory {
     if (type == HealthDataType.WORKOUT)
       throw ArgumentError("Adding workouts should be done using the writeWorkoutData method.");
     if (startTime.isAfter(endTime)) throw ArgumentError("startTime must be equal or earlier than endTime");
-    if ([
+    if ({
       HealthDataType.HIGH_HEART_RATE_EVENT,
       HealthDataType.LOW_HEART_RATE_EVENT,
-      HealthDataType.IRREGULAR_HEART_RATE_EVENT
-    ].contains(type)) throw ArgumentError("$type - iOS doesnt support writing this data type in HealthKit");
+      HealthDataType.IRREGULAR_HEART_RATE_EVENT,
+      HealthDataType.ELECTROCARDIOGRAM,
+    }.contains(type)) throw ArgumentError("$type - iOS doesnt support writing this data type in HealthKit");
 
     // Assign default unit if not specified
     unit ??= _dataTypeToUnit[type]!;
@@ -462,6 +473,8 @@ class HealthFactory {
         value = AudiogramHealthValue.fromJson(e);
       } else if (dataType == HealthDataType.WORKOUT) {
         value = WorkoutHealthValue.fromJson(e);
+      } else if (dataType == HealthDataType.ELECTROCARDIOGRAM) {
+        value = ElectrocardiogramHealthValue.fromJson(e);
       } else {
         value = NumericHealthValue(e['value']);
       }

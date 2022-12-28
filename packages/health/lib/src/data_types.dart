@@ -48,6 +48,7 @@ enum HealthDataType {
   LOW_HEART_RATE_EVENT,
   IRREGULAR_HEART_RATE_EVENT,
   ELECTRODERMAL_ACTIVITY,
+  ELECTROCARDIOGRAM,
 }
 
 enum HealthDataAccess {
@@ -99,6 +100,7 @@ const List<HealthDataType> _dataTypeKeysIOS = [
   HealthDataType.HEADACHE_MODERATE,
   HealthDataType.HEADACHE_SEVERE,
   HealthDataType.HEADACHE_UNSPECIFIED,
+  HealthDataType.ELECTROCARDIOGRAM,
 ];
 
 /// List of data types available on Android
@@ -174,6 +176,7 @@ const Map<HealthDataType, HealthDataUnit> _dataTypeToUnit = {
   HealthDataType.LOW_HEART_RATE_EVENT: HealthDataUnit.NO_UNIT,
   HealthDataType.IRREGULAR_HEART_RATE_EVENT: HealthDataUnit.NO_UNIT,
   HealthDataType.HEART_RATE_VARIABILITY_SDNN: HealthDataUnit.MILLISECOND,
+  HealthDataType.ELECTROCARDIOGRAM: HealthDataUnit.VOLT,
 };
 
 const PlatformTypeJsonValue = {PlatformType.IOS: 'ios', PlatformType.ANDROID: 'android'};
@@ -412,4 +415,38 @@ enum MealType {
   MEAL_TYPE_LUNCH,
   MEAL_TYPE_SNACK,
   MEAL_TYPE_UNKNOWN,
+}
+
+enum ElectrocardiogramClassification {
+  NOT_SET,
+  SINUS_RHYTHM,
+  ATRIAL_FIBRILLATION,
+  INCONCLUSIVE_LOW_HEART_RATE,
+  INCONCLUSIVE_HIGH_HEART_RATE,
+  INCONCLUSIVE_POOR_READING,
+  INCONCLUSIVE_OTHER,
+  UNRECOGNIZED,
+}
+
+extension ElectrocardiogramClassificationValue on ElectrocardiogramClassification {
+  int get value {
+    switch (this) {
+      case ElectrocardiogramClassification.NOT_SET:
+        return 0;
+      case ElectrocardiogramClassification.SINUS_RHYTHM:
+        return 1;
+      case ElectrocardiogramClassification.ATRIAL_FIBRILLATION:
+        return 2;
+      case ElectrocardiogramClassification.INCONCLUSIVE_LOW_HEART_RATE:
+        return 3;
+      case ElectrocardiogramClassification.INCONCLUSIVE_HIGH_HEART_RATE:
+        return 4;
+      case ElectrocardiogramClassification.INCONCLUSIVE_POOR_READING:
+        return 5;
+      case ElectrocardiogramClassification.INCONCLUSIVE_OTHER:
+        return 6;
+      case ElectrocardiogramClassification.UNRECOGNIZED:
+        return 100;
+    }
+  }
 }

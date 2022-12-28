@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:permission_handler/permission_handler.dart';
-
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(HealthApp());
 
@@ -60,7 +59,7 @@ class _HealthAppState extends State<HealthApp> {
 
     // get data within the last 24 hours
     final now = DateTime.now();
-    final yesterday = now.subtract(Duration(days: 5));
+    final yesterday = now.subtract(Duration(days: 1));
     // requesting access to the data types before reading them
     // note that strictly speaking, the [permissions] are not
     // needed, since we only want READ access.
@@ -98,13 +97,31 @@ class _HealthAppState extends State<HealthApp> {
     final now = DateTime.now();
     final earlier = now.subtract(Duration(minutes: 20));
 
-    _nofSteps = Random().nextInt(10);
-    final types = [HealthDataType.STEPS, HealthDataType.BLOOD_GLUCOSE];
-    final rights = [HealthDataAccess.WRITE, HealthDataAccess.WRITE];
-    final permissions = [HealthDataAccess.READ_WRITE, HealthDataAccess.READ_WRITE];
+    final types = [
+      HealthDataType.STEPS,
+      HealthDataType.HEIGHT,
+      HealthDataType.BLOOD_GLUCOSE,
+      HealthDataType.WORKOUT, // Requires Google Fit on Android
+      // Uncomment these lines on iOS - only available on iOS
+      // HealthDataType.AUDIOGRAM,
+    ];
+    final rights = [
+      HealthDataAccess.WRITE,
+      HealthDataAccess.WRITE,
+      HealthDataAccess.WRITE,
+      HealthDataAccess.WRITE,
+      // HealthDataAccess.WRITE
+    ];
+    final permissions = [
+      HealthDataAccess.READ_WRITE,
+      HealthDataAccess.READ_WRITE,
+      HealthDataAccess.READ_WRITE,
+      HealthDataAccess.READ_WRITE,
+      // HealthDataAccess.READ_WRITE,
+    ];
     bool? hasPermissions = await HealthFactory.hasPermissions(types, permissions: rights);
     if (hasPermissions == false) {
-      // perm = await health.requestAuthorization(types, permissions: permissions);
+      await health.requestAuthorization(types, permissions: permissions);
     }
 
     _mgdl = Random().nextInt(10) * 1.0;
