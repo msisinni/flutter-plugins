@@ -13,7 +13,6 @@ import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.FitnessActivities
 import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.*
-import com.google.android.gms.fitness.request.DataDeleteRequest
 import com.google.android.gms.fitness.request.DataReadRequest
 import com.google.android.gms.fitness.request.DataDeleteRequest
 import com.google.android.gms.fitness.request.SessionInsertRequest
@@ -1101,7 +1100,7 @@ class HealthPlugin(private var channel: MethodChannel? = null) : MethodCallHandl
 
 
             GoogleSignIn.requestPermissions(
-                    context!!,
+                    activity!!,
                     GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,
                     GoogleSignIn.getLastSignedInAccount(activity!!),
                     optionsToRegister)
@@ -1123,7 +1122,7 @@ class HealthPlugin(private var channel: MethodChannel? = null) : MethodCallHandl
         /// Not granted? Ask for permission
         if (!isGranted && context != null) {
             GoogleSignIn.requestPermissions(
-                    context!!,
+                    activity!!,
                     GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,
                     GoogleSignIn.getLastSignedInAccount(context!!),
                     optionsToRegister)
