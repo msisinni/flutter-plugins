@@ -389,7 +389,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
         
         print("Successfully called writeNutritionData")
         
-        var samples: [HKQuantitySample] = []
+        var samples = Set<HKSample>();
        
         for nutritionDataType in nutritionDataTypesDict {
             
@@ -397,20 +397,30 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
             if(value != nil){
                 
                 
-                
+               
                 let quantity = HKQuantity(unit: unitLookUp(key: nutritionDataType.key), doubleValue: value!.doubleValue)
                 
-                samples.append(HKQuantitySample(type: nutritionDataType.value as! HKQuantityType, quantity: quantity, start: dateFrom, end: dateTo))
+                samples.insert(HKQuantitySample(type: nutritionDataType.value as! HKQuantityType, quantity: quantity, start: dateFrom, end: dateTo ))
                
                 
             }
         }
         
-        HKHealthStore().save(samples, withCompletion: { (success, error) in
+        guard let type = HKObjectType.correlationType(forIdentifier: HKCorrelationTypeIdentifier.food) else {
+            print("Error getting correlation type");
+            result(false);
+            
+            return;
+                }
+        
+        let correlation = HKCorrelation(type:type , start: dateFrom, end: dateTo, objects: samples)
+        
+        HKHealthStore().save(correlation, withCompletion: { (success, error) in
             if let err = error {
-                print("Error Saving nutrition values Sample: \(err.localizedDescription)")
+                print("Error Saving nutrition values correlation: \(err.localizedDescription)")
             }
             DispatchQueue.main.async {
+                
                 result(success)
             }
         })

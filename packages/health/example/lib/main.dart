@@ -164,24 +164,25 @@ class _HealthAppState extends State<HealthApp> {
 
     final today = DateTime(now.year, now.month, now.day);
 
-    //   bool success = await health.writeNutritionData(
-    //  mealType:   MealType.MEAL_TYPE_BREAKFAST,
-    //  startTime:   today,
-    // endTime:    today,
-    //    foodName: "Banana",
-    //   totalFat:  Random().nextDouble() * 20,
-    //    totalSodium: Random().nextDouble() * 20,
-    //   totalSaturatedFat:  Random().nextDouble() * 20,
-    //    totalProtein: Random().nextDouble() * 20,
-    //    totalTotalCarbs: Random().nextDouble() * 20,
-    //    dietaryCalcium: Random().nextDouble() * 20,
-    //   totalDietaryFiber:  Random().nextDouble() * 20,
-    //   dietaryCopper:  Random().nextDouble() * 20,
-    //   dietaryPhosphorus:  Random().nextDouble() * 20,
-    //   dietaryZinc:  Random().nextDouble() * 20,
-    //   );
+    bool success = await health.writeNutritionData(
+      mealType: MealType.MEAL_TYPE_BREAKFAST,
+      startTime: today,
+      endTime: today,
+      foodName: "Banana",
+      totalFat: Random().nextDouble() * 20,
+      totalSodium: Random().nextDouble() * 20,
+      totalSaturatedFat: Random().nextDouble() * 20,
+      totalProtein: Random().nextDouble() * 20,
+      totalTotalCarbs: Random().nextDouble() * 20,
+      dietaryCalcium: Random().nextDouble() * 20,
+      totalDietaryFiber: Random().nextDouble() * 20,
+      dietaryCopper: Random().nextDouble() * 20,
+      dietaryPhosphorus: Random().nextDouble() * 20,
+      dietaryZinc: Random().nextDouble() * 20,
+      totalCalories: Random().nextDouble() * 20,
+    );
 
-    bool success = await health.deleteNutritionData(endTime: today, startTime: today);
+    // bool success = await health.deleteNutritionData(endTime: today, startTime: today);
 
     print(success);
   }
