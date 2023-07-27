@@ -366,13 +366,12 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
                     print("Error deleting nutrition values Sample: \(err.localizedDescription)")
                 }
                 DispatchQueue.main.async {
-                  
+                    result(success)
                 }
             })
            
         }
 
-        result(true)
     }
     
     func writeNutritionData(call: FlutterMethodCall, result: @escaping FlutterResult) throws {
