@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(HealthApp());
 
